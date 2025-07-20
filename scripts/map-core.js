@@ -89,10 +89,10 @@ export const yearRanges = {
     colorDomain: [-0.02, 0, 0.1],
   },
   slide4: {
-    START_YEAR: 2024,
+    START_YEAR: 1900,
     END_YEAR: 2024,
     label: "The End",
-    colorDomain: [0, 0, 0],
+    colorDomain: [0, 0, 10],
   },
 };
 
@@ -303,7 +303,7 @@ function renderLegend(domain, colorScale) {
 }
 
 function renderAnnotations(yearRange) {
-  //remove previous annotations
+  // remove previous annotations
   svg.selectAll(".annotation-group").remove();
 
   let annotations = [];
@@ -398,8 +398,9 @@ function renderAnnotations(yearRange) {
       annotations = [
         {
           note: {
-            title: "That's it!",
-            label: "Thank you for visiting!",
+            title: "Thank you for visiting!",
+            label:
+              "This ends our exploration of U.S. state population changes over time. Behind every shift, whether driven by drought, war, industry, or crisis, are stories of movement, resilience, and adaptation. By examining these patterns, we don’t just learn about the past; we gain tools to understand the present and anticipate the future of our communities, economies, and environment.",
             wrap: 220,
             padding: 5,
           },
@@ -412,6 +413,7 @@ function renderAnnotations(yearRange) {
       break;
   }
 
+  // render annotations
   if (annotations.length > 0) {
     const makeAnnotations = d3.annotation().annotations(annotations);
     svg.append("g").attr("class", "annotation-group").call(makeAnnotations);

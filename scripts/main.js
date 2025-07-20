@@ -38,7 +38,23 @@ window.onload = async () => {
   // slide button controls
 
   function showCurrentSlide() {
+    //update slide based on current index
     updateSlide(slideOrder[currentSlideIndex]);
+
+    const playPauseBtn = document.getElementById("play-pause");
+
+    // play/stop/start switching logic
+    if (currentSlideIndex === slideOrder.length - 1) {
+      if (isPlaying) {
+        clearInterval(intervalId);
+        isPlaying = false;
+      }
+      playPauseBtn.textContent = "Back to Start";
+    } else if (!isPlaying) {
+      playPauseBtn.textContent = "Play";
+    } else {
+      playPauseBtn.textContent = "Stop";
+    }
   }
 
   function nextSlide() {
@@ -58,6 +74,14 @@ window.onload = async () => {
   function togglePlayPause() {
     const playPauseBtn = document.getElementById("play-pause");
 
+    if (playPauseBtn.textContent === "Back to Start") {
+      currentSlideIndex = 0;
+      showCurrentSlide();
+      isPlaying = false;
+      playPauseBtn.textContent = "Play";
+      return;
+    }
+
     if (isPlaying) {
       clearInterval(intervalId);
       isPlaying = false;
@@ -65,6 +89,12 @@ window.onload = async () => {
     } else {
       isPlaying = true;
       playPauseBtn.textContent = "Stop";
+
+      if (currentSlideIndex === 0) {
+        currentSlideIndex++;
+        showCurrentSlide();
+      }
+
       intervalId = setInterval(() => {
         if (currentSlideIndex < slideOrder.length - 1) {
           currentSlideIndex++;
@@ -72,9 +102,9 @@ window.onload = async () => {
         } else {
           clearInterval(intervalId);
           isPlaying = false;
-          playPauseBtn.textContent = "Play";
+          playPauseBtn.textContent = "Back to Start";
         }
-      }, 5000);
+      }, 10000);
     }
   }
 
